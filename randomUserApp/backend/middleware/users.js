@@ -96,6 +96,40 @@ export const saveUser = async (req, res) => {
     });
   }
 };
+export const createUser = async (req, res) => {
+  try {
+    const {
+      userid,
+      uuid,
+      picture,
+      name,
+      location,
+      email,
+      phone,
+      nationality,
+      dob,
+    } = req.body;
+
+    db.query(
+      "INSERT INTO usersdata (userid, uuid, picture, name, email, location, phone, nationality, dob) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [userid, uuid, picture, name, location, email, phone, nationality, dob],
+      (err, data) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({ Message: "Server Side Error" });
+        }
+
+        return res.status(200).json({ Status: "Successs" });
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      success: false,
+      description: "Server Error",
+    });
+  }
+};
 export const updateUser = (req, res) => {
   try {
     const {
